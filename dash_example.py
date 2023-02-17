@@ -32,11 +32,6 @@ app.layout = html.Div(children=[  # adding a list of components as children of t
                    value='happiness_score'),  # default selected option
 
     html.Br(),
-
-    html.Button(id='submit_button',
-                n_clicks=0, # how many times has it been clicked
-                children='Update the Output'), # button's text
-
     dcc.Graph(id='happiness_graph'), # previously created lineplot
     html.Div(id='average_div')
 ])
@@ -56,12 +51,11 @@ def update_region(selected_region):
 @app.callback(
     Output(component_id='happiness_graph', component_property='figure'),
     Output(component_id='average_div', component_property='children'),
-    Input(component_id='submit_button', component_property='n_clicks'),
-    State(component_id='country_dropdown', component_property='value'),
-    State(component_id='data_radio', component_property='value')
+    Input(component_id='country_dropdown', component_property='value'),
+    Input(component_id='data_radio', component_property='value')
 )
 
-def update_graph(button_click, selected_country, selected_data):
+def update_graph(selected_country, selected_data):
     filtered_happiness = happiness[happiness['country'] == selected_country]
 
     # the y-axis changes based on the chosen metric in the dashboard
